@@ -6,6 +6,8 @@ const massive = require("massive");
 const passport = require("passport");
 const Auth0Strategy = require('passport-auth0');
 
+const booksController = require('./controller/booksController')
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -77,6 +79,9 @@ passport.deserializeUser( function(id, done) {
         done(null, user[0])
     })
 })
+
+app.get('/api/getBooks', booksController.getBooks);
+
 const PORT = 3028;
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
