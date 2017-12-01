@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 export default class AddBook extends Component {
   render() {
     return (
-      <div>Book Exhange</div>
+      <div>Add Book</div>
     );
   }
 }

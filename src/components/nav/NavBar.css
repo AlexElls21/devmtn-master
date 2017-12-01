@@ -1,0 +1,22 @@
+.NavParent{
+    width: 100%;
+    background: black;
+}
+
+.NavBar{
+    display: flex;
+    justify-content: space-between;
+}
+
+.Leftside{
+    display: flex;
+    color: #c6b38e;    
+}
+.Leftside > h3{
+    margin-left: 30px;
+    color: #c6b38e;
+}
+
+.NavParent h3{
+    color: #c6b38e;
+}

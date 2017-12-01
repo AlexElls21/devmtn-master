@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import router from './router.js'
+
 
 
 class App extends Component {
   render() {
     return (
-      <div>Book Exhange</div>
+      <div>
+        {router}
+      </div>
     );
   }
 }

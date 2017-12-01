@@ -9,9 +9,73 @@ const Auth0Strategy = require('passport-auth0');
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 massive(process.env.CONNECTION_STRING).then(db => {
     console.log("Connected to DB")
     app.set('db', db)
+})
+
+passport.use(new Auth0Strategy({
+    domain: process.env.AUTH_DOMAIN,
+    clientID: process.env.AUTH_CLIENT_ID,
+    clientSecret: process.env.AUTH_CLIENT_SECRET,
+    callbackURL: process.env.CALLBACK_URL
+}, function(accessToken, refreshToken, extraParams, profile, done){
+
+    const db = app.get('db')
+    //find and add users here
+
+    //console.log(profile)
+    db.users_find_user([profile._json.email]).then(user => {
+        if (user[0]) {
+            return done(null, user[0].user_id)
+        }
+        else {
+            db.users_create_user([profile._json.email])
+                .then(user => {
+                    return done(null, user[0].user_id)
+                })
+        }
+        //console.log(user)
+    })
+}))
+
+app.get('/auth', passport.authenticate('auth0'));
+app.get('/auth/callback', passport.authenticate('auth0', {
+    successRedirect: 'http://localhost:3000/#/Browsing',
+    failureRedirect: '/auth'
+}))
+app.get('/auth/me', (req, res) => {
+    if( !req.user ){
+        return res.status(404).send(false)
+    } else {
+        return res.status(200).send(req.user)
+    }
+})
+
+app.get('/auth/logout', (req, res) => {
+    req.logOut();
+    res.redirect(302, 'http://localhost:3000/#/')
+})
+
+passport.serializeUser( function(id, done) {
+    done(null, id);
+})
+
+passport.deserializeUser( function(id, done) {
+    app.get('db').users_find_current_user([user_id])
+    .then(user => {
+        done(null, user[0])
+    })
 })
 const PORT = 3028;
 
