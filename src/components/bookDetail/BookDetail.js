@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 
 
-class App extends Component {
+export default class BookDetail extends Component {
   render() {
     return (
       <div>Book Exhange</div>
     );
   }
 }
-
-export default App;
