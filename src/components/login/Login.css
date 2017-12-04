@@ -1,0 +1,29 @@
+.bookLogin{
+    height: 100px;
+    width: 100px;
+}
+
+.LoginParent{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #4e1e29;
+    height: 100vh;
+    width: 100vw;
+}
+
+.LoginHome{
+    background: #c6b38e;
+    height: 600px;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-around; */
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.LoginHome h3{
+    color: #4e1e29;
+}
